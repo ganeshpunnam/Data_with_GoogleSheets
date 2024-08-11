@@ -1,40 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Required meta tags-->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recruiter Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Workociti">
+  <meta name="author" content="Workociti">
+  <meta name="keywords" content="Workociti">
+
+  <!-- Title Page-->
+  <title>Employer Signup</title>
+
+  <!-- Font special for pages-->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+  <!-- Main CSS-->
+  <link href="signup/css/main.css" rel="stylesheet" media="all">
 </head>
+
 <body>
-  <form id="loginForm">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <button type="submit">Login</button>
-  </form>
+  <div class="page-wrapper bg-dark p-t-100 p-b-50">
+    <div class="wrapper wrapper--w900">
+      <div class="card card-6">
+        <div class="card-heading">
+          <h2 class="title">Recruit Job</h2>
+        </div>
+        <div class="card-body">
+          <form id="signupForm" method="POST">
+
+            <!--Employer name-->
+            <div class="form-row">
+              <div class="name">Employer Company Name</div>
+              <div class="value">
+                <input class="input--style-6" type="text" name="full_name" required>
+              </div>
+            </div>
+
+            <!--Recruiter name-->
+            <div class="form-row">
+              <div class="name">Recruiter Name</div>
+              <div class="value">
+                <input class="input--style-6" type="text" name="recruiter_name" required>
+              </div>
+            </div>
+
+            <!--Email-->
+            <div class="form-row">
+              <div class="name">Official Email Address</div>
+              <div class="value">
+                <div class="input-group">
+                  <input class="input--style-6" type="email" name="email" placeholder="example@email.com" required>
+                </div>
+              </div>
+            </div>
+
+            <!--Password-->
+            <div class="form-row">
+              <div class="name">Password</div>
+              <div class="value">
+                <div class="input-group">
+                  <input class="input--style-6" type="password" name="pass" id="password" required>
+                </div>
+              </div>
+            </div>
+
+            <!--Confirm Password-->
+            <div class="form-row">
+              <div class="name">Re-type Password</div>
+              <div class="value">
+                <div class="input-group">
+                  <input class="input--style-6" type="password" name="repass" id="confirm_password" onkeyup="validatePassword();" required>
+                </div>
+              </div>
+            </div>
+
+            <!--Contact-->
+            <div class="form-row">
+              <div class="name">Contact Number</div>
+              <div class="value">
+                <input class="input--style-6" type="tel" name="contact" placeholder="Enter Contact Number" required>
+              </div>
+            </div>
+
+            <!--Current Address-->
+            <div class="form-row">
+              <div class="name">Registered Office Address</div>
+              <div class="value">
+                <div class="input-group">
+                  <textarea class="textarea--style-6" name="address" placeholder="Enter your Address" required></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!--Location-->
+            <div class="form-row">
+              <div class="name col-lg-2">Location</div>
+              <div class="default-select" id="default-select">
+                <select class="col-lg-6" name="location" required>
+                  <option value="India">India</option>
+                  <option value="Poland">Poland</option>
+                  <option value="New Zealand">New Zealand</option>
+                  <option value="Australia">Australia</option>
+                </select>
+              </div>
+              <pre>     </pre>
+              <div class="col-lg-4">
+                <input class="input--style-6" type="text" name="city" placeholder="City" required>
+              </div>
+            </div>
+
+            <!--About the Company-->
+            <div class="form-row">
+              <div class="name">About the Company</div>
+              <div class="value">
+                <div class="input-group">
+                  <textarea class="textarea--style-6" name="message" placeholder="Message sent to the employer" required></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!--Submit Button-->
+            <div class="card-footer">
+              <button class="btn btn--radius-2 btn--blue-2" type="submit">Send Application</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jquery JS-->
+  <script src="signup/vendor/jquery/jquery.min.js"></script>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
+    // Password validation
+    var password = document.getElementById("password"),
+        confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+      if (password.value !== confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords don't match");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    // Form submission using fetch with JSONP fallback
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
       event.preventDefault();
+
       var formData = new FormData(this);
-      
-      fetch('http://localhost:3000/api', {
-        method: 'POST',
-        body: JSON.stringify({
-          username: formData.get('username'),
-          password: formData.get('password')
-        }),
+      var data = {};
+      formData.forEach(function(value, key) {
+        data[key] = value;
+      });
+
+      var url = "https://script.google.com/macros/s/AKfycbyYejmVZ_fWt40c-GtBgugD9LcitJZXGP84Xu4ItvMsiQmVPlMDhJLCZm8GD3kAhmU-iw/exec";
+
+      // Try fetch first
+      fetch(url, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
       })
       .then(response => response.json())
-    
-      alert('Login successful');
+      .then(result => {
+        alert(result.result);
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+        // If fetch fails, fall back to JSONP
+        var script = document.createElement('script');
+        script.src = url + "?callback=handleResponse&" + new URLSearchParams(data).toString();
+        document.body.appendChild(script);
+      });
     });
+
+    // JSONP callback function
+    function handleResponse(response) {
+      alert(response.result);
+    }
   </script>
+
+  <!-- Main JS-->
+  <script src="signup/js/global.js"></script>
+
 </body>
+
 </html>
