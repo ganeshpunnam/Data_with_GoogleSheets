@@ -690,3 +690,21 @@ textarea {
     padding: 50px 30px;
   }
 }
+
+.input-file {
+  display: none; /* Hide the default file input */
+}
+
+.label--file {
+  cursor: pointer; /* Make label clickable */
+  display: inline-block;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+}
+
+.input-file__info {
+  margin-top: 5px;
+  display: block;
+}
